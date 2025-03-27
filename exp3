@@ -1,0 +1,34 @@
+import RPi.GPIO as GPIO
+import time
+
+# Debugging mode
+DEBUG = 1
+
+# Set GPIO mode to BOARD (use BCM if you prefer)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+def RCtime(RCpin):
+    reading = 0  # Initialize the reading variable
+    GPIO.setup(RCpin, GPIO.OUT)
+    GPIO.output(RCpin, GPIO.LOW)
+    time.sleep(0.1)  # Time to discharge capacitor
+
+    GPIO.setup(RCpin, GPIO.IN)
+
+    # The loop runs until the capacitor is charged
+    while GPIO.input(RCpin) == GPIO.LOW:
+        reading += 1
+
+    return reading  # Return the light intensity reading
+
+# Main loop
+try:
+    while True:
+        light_intensity = RCtime(12)  # Measure light intensity at pin 12
+        print("Light Intensity:", light_intensity)
+        time.sleep(1)  # Delay for 1 second
+
+except KeyboardInterrupt:
+    print("\nMeasurement stopped by user")
+    GPIO.cleanup()  # Cleanup GPIO on exit
