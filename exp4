@@ -1,0 +1,27 @@
+#include <PulseSensorPlayground.h>
+
+#define PULSE_SENSOR_PIN A0 // Pulse Sensor connected to A0
+#define THRESHOLD 550       // Adjust this value as needed
+
+PulseSensorPlayground pulseSensor;
+
+void setup() {
+    Serial.begin(9600); // Start Serial Monitor
+    pulseSensor.analogInput(PULSE_SENSOR_PIN);
+    pulseSensor.setThreshold(THRESHOLD);
+
+    if (pulseSensor.begin()) {
+        Serial.println("Pulse Sensor Ready!");
+    }
+}
+
+void loop() {
+    if (pulseSensor.sawStartOfBeat()) { // Detect heartbeat
+        int bpm = pulseSensor.getBeatsPerMinute(); // Get BPM
+        Serial.print("Heart Rate: ");
+        Serial.print(bpm);
+        Serial.println(" BPM");
+    }
+    
+    delay(20); // Short delay for stable readings
+}
