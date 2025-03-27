@@ -1,6 +1,36 @@
 //SIM800C Module Testing with Arduino
 //gitub---https://github.com/smdthiranjaya/SIM800C-module/blob/main/SIM800C.ino
 
+//-----HC-05-BLUETOOTH
+#include <SoftwareSerial.h>
 
+#define BT_RX 10 // Bluetooth TX → Arduino D10 (RX)
+#define BT_TX 11 // Bluetooth RX → Arduino D11 (TX)
 
+SoftwareSerial BTSerial(BT_RX, BT_TX); // Define Bluetooth Serial
 
+void setup() {
+    Serial.begin(9600); // Start Serial Monitor
+    BTSerial.begin(9600); // Start HC-05 Bluetooth communication
+
+    Serial.println("HC-05 Bluetooth Module Ready!");
+}
+
+void loop() {
+    // Check if data is received from Bluetooth
+    if (BTSerial.available()) {
+        char receivedChar = BTSerial.read(); // Read data
+        Serial.print("Received: ");
+        Serial.println(receivedChar);
+        
+        // Echo the received data back
+        BTSerial.print("Echo: ");
+        BTSerial.println(receivedChar);
+    }
+
+    // Check if data is sent from Serial Monitor
+    if (Serial.available()) {
+        char dataToSend = Serial.read();
+        BTSerial.write(dataToSend); // Send to Bluetooth
+    }
+}
