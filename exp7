@@ -1,1 +1,27 @@
 //https://www.tinkercad.com/things/f52nKWSTDdV/editel?returnTo=%2Fdashboard&sharecode=fHciV87YOvbL41Cml72uSaqAC_GL1ea2P0bALj5EXLQ
+
+
+int IRSensor = 9;  // IR sensor output pin connected to Arduino pin 9
+int LED = 13;      // LED connected to Arduino pin 13
+
+void setup() {
+    Serial.begin(115200);  // Initialize Serial Monitor
+    pinMode(IRSensor, INPUT);  // Set IR sensor pin as input
+    pinMode(LED, OUTPUT);  // Set LED pin as output
+}
+
+void loop() {
+    int sensorStatus = digitalRead(IRSensor); // Read IR sensor status
+
+    if (sensorStatus == HIGH) {  
+        // No object detected (IR sensor output is HIGH)
+        digitalWrite(LED, LOW);  // Turn OFF LED
+        Serial.println("No Obstacle Detected!");
+    } else {  
+        // Object detected (IR sensor output is LOW)
+        digitalWrite(LED, HIGH);  // Turn ON LED
+        Serial.println("Obstacle Detected!");
+    }
+
+    delay(500); // Small delay for stability
+}
