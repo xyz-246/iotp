@@ -1,1 +1,25 @@
 https://www.tinkercad.com/things/lDsCF9sQz8i/editel?sharecode=AmULPZhIIhfyl4Kwldpr1iNRwan1cBasA24gqoeoe4k
+
+//constintsmokeSensorPin=A0; const
+int buzzerPin = 9;
+const int ledPin =
+8;constintthreshold=300;
+void setup() {
+pinMode(buzzerPin, OUTPUT);
+pinMode(ledPin, OUTPUT);
+Serial.begin(9600);
+}
+voidloop(){
+intsensorValue=analogRead(smokeSensorPin);
+Serial.print("Smoke Level: ");
+Serial.println(sensorValue);
+if (sensorValue > threshold) {
+digitalWrite(buzzerPin, HIGH);
+digitalWrite(ledPin, HIGH);
+Serial.println("WARNING: Smoke Detected!");
+}else{
+digitalWrite(buzzerPin,LOW);
+digitalWrite(ledPin, LOW);
+}
+delay(1000);
+}
